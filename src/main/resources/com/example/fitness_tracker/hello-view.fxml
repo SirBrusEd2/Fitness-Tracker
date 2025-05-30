@@ -4,212 +4,281 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.util.Callback?>
-<VBox alignment="CENTER" spacing="15.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="com.example.fitness_tracker.controller.FitnessTrackerController">
+<VBox xmlns="http://javafx.com/javafx/17.0.6"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.fitness_tracker.controller.FitnessTrackerController"
+      alignment="CENTER"
+      spacing="15.0"
+      style="-fx-background-color: linear-gradient(to bottom, #e0f7fa, #b2ebf2);">
 
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
     </padding>
 
-    <Label style="-fx-font-weight: bold; -fx-font-size: 20;" text="Фитнес-трекер" />
+    <!-- Заголовок приложения -->
+    <Label text="ФИТНЕС ТРЕКЕР"
+           style="-fx-font-weight: bold; -fx-font-size: 24; -fx-text-fill: #00796b;">
+        <font>
+            <Font name="Arial Bold" size="24.0"/>
+        </font>
+    </Label>
 
-    <HBox spacing="10">
-        <RadioButton fx:id="dbRadioButton" text="База данных" selected="true" />
-        <RadioButton fx:id="fileRadioButton" text="Файл" />
-        <RadioButton fx:id="memoryRadioButton" text="Память" />
+    <!-- Переключатель хранилища -->
+    <HBox spacing="10" alignment="CENTER"
+          style="-fx-background-color: #b2dfdb; -fx-background-radius: 10; -fx-padding: 10;">
+        <Label text="Хранилище:" style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
+        <RadioButton fx:id="dbRadioButton" text="База данных" selected="true"
+                     style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
+        <RadioButton fx:id="fileRadioButton" text="Файл"
+                     style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
+        <RadioButton fx:id="memoryRadioButton" text="Память"
+                     style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
     </HBox>
 
-    <TabPane>
+    <TabPane style="-fx-background-color: transparent; -fx-tab-min-width: 120;">
         <tabs>
             <!-- Вкладка "Прогресс" -->
-            <Tab text="Прогресс">
-                <GridPane hgap="10" vgap="10">
-                    <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                    </padding>
-                    <Label text="Текущий вес (кг):" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                    <TextField fx:id="currentWeightField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Tab text="Прогресс" style="-fx-font-weight: bold;">
+                <content>
+                    <VBox spacing="15" style="-fx-background-color: #e8f5e9; -fx-background-radius: 10; -fx-padding: 20;">
+                        <Label text="РАСЧЕТ ПРОГРЕССА"
+                               style="-fx-font-size: 16; -fx-text-fill: #2e7d32; -fx-font-weight: bold;"/>
 
-                    <Label text="Целевой вес (кг):" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                    <TextField fx:id="targetWeightField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <GridPane hgap="15" vgap="15">
+                            <Label text="Текущий вес (кг):" style="-fx-text-fill: #1b5e20; -fx-font-weight: bold;"/>
+                            <TextField fx:id="currentWeightField" promptText="Введите текущий вес в кг"
+                                       style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;"/>
 
-                    <Label text="Срок (дней):" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                    <TextField fx:id="daysPeriod" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label text="Целевой вес (кг):" style="-fx-text-fill: #1b5e20; -fx-font-weight: bold;" GridPane.rowIndex="1"/>
+                            <TextField fx:id="targetWeightField" promptText="Введите целевой вес в кг"
+                                       style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;" GridPane.rowIndex="1"/>
 
-                    <Button onAction="#calculateProgress" text="Рассчитать" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            <Label text="Срок (дней):" style="-fx-text-fill: #1b5e20; -fx-font-weight: bold;" GridPane.rowIndex="2"/>
+                            <TextField fx:id="daysPeriod" promptText="Введите срок в днях"
+                                       style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;" GridPane.rowIndex="2"/>
 
-                    <Label fx:id="progressResult" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-                    <columnConstraints>
-                        <ColumnConstraints />
-                        <ColumnConstraints />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                    </rowConstraints>
-                </GridPane>
+                            <Button onAction="#calculateProgress" text="РАССЧИТАТЬ"
+                                    style="-fx-background-color: #43a047; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 5 15;"
+                                    GridPane.columnSpan="2" GridPane.rowIndex="3"/>
+
+                            <Label fx:id="progressResult" wrapText="true"
+                                   style="-fx-text-fill: #1b5e20; -fx-font-weight: bold; -fx-font-style: italic;"
+                                   GridPane.columnSpan="2" GridPane.rowIndex="4"/>
+
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200" prefWidth="200"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                            </rowConstraints>
+                        </GridPane>
+                    </VBox>
+                </content>
             </Tab>
 
             <!-- Вкладка "Рекомендации" -->
-            <Tab text="Рекомендации">
-                <GridPane hgap="10" vgap="10">
-                    <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                    </padding>
-                    <Label text="Тренировок на неделе:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                    <TextField fx:id="workoutsField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Tab text="Рекомендации" style="-fx-font-weight: bold;">
+                <content>
+                    <VBox spacing="15" style="-fx-background-color: #e8f5e9; -fx-background-radius: 10; -fx-padding: 20;">
+                        <Label text="АНАЛИЗ НАГРУЗКИ"
+                               style="-fx-font-size: 16; -fx-text-fill: #2e7d32; -fx-font-weight: bold;"/>
 
-                    <Label text="Средняя продолжительность (мин):" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                    <TextField fx:id="durationField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <GridPane hgap="15" vgap="15">
+                            <Label text="Тренировок на неделе:" style="-fx-text-fill: #1b5e20; -fx-font-weight: bold;"/>
+                            <TextField fx:id="workoutsField" promptText="Количество тренировок"
+                                       style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;"/>
 
-                    <Button onAction="#checkOvertraining" text="Проверить" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label text="Средняя продолжительность (мин):" style="-fx-text-fill: #1b5e20; -fx-font-weight: bold;" GridPane.rowIndex="1"/>
+                            <TextField fx:id="durationField" promptText="Средняя продолжительность (мин)"
+                                       style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;" GridPane.rowIndex="1"/>
 
-                    <Label fx:id="recommendationResult" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-                    <columnConstraints>
-                        <ColumnConstraints />
-                        <ColumnConstraints />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                    </rowConstraints>
-                </GridPane>
+                            <Button onAction="#checkOvertraining" text="ПРОВЕРИТЬ"
+                                    style="-fx-background-color: #43a047; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 5 15;"
+                                    GridPane.columnSpan="2" GridPane.rowIndex="2"/>
+
+                            <Label fx:id="recommendationResult" wrapText="true"
+                                   style="-fx-text-fill: #1b5e20; -fx-font-weight: bold; -fx-font-style: italic;"
+                                   GridPane.columnSpan="2" GridPane.rowIndex="3"/>
+
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200" prefWidth="200"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                            </rowConstraints>
+                        </GridPane>
+                    </VBox>
+                </content>
             </Tab>
 
             <!-- Вкладка "Конвертер" -->
-            <Tab text="Конвертер">
-                <GridPane hgap="10" vgap="10">
-                    <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                    </padding>
-                    <Label text="Дистанция в милях:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                    <TextField fx:id="milesField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Tab text="Конвертер" style="-fx-font-weight: bold;">
+                <content>
+                    <VBox spacing="15" style="-fx-background-color: #e8f5e9; -fx-background-radius: 10; -fx-padding: 20;">
+                        <Label text="КОНВЕРТЕР РАССТОЯНИЯ"
+                               style="-fx-font-size: 16; -fx-text-fill: #2e7d32; -fx-font-weight: bold;"/>
 
-                    <Button onAction="#convertToKm" text="Конвертировать в км" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <GridPane hgap="15" vgap="15">
+                            <Label text="Дистанция в милях:" style="-fx-text-fill: #1b5e20; -fx-font-weight: bold;"/>
+                            <TextField fx:id="milesField" promptText="Введите расстояние в милях"
+                                       style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;"/>
 
-                    <Label fx:id="conversionResult" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-                    <columnConstraints>
-                        <ColumnConstraints />
-                        <ColumnConstraints />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                    </rowConstraints>
-                </GridPane>
+                            <Button onAction="#convertToKm" text="КОНВЕРТИРОВАТЬ"
+                                    style="-fx-background-color: #43a047; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 5 15;"
+                                    GridPane.columnSpan="2" GridPane.rowIndex="1"/>
+
+                            <Label fx:id="conversionResult"
+                                   style="-fx-text-fill: #1b5e20; -fx-font-weight: bold; -fx-font-style: italic;"
+                                   GridPane.columnSpan="2" GridPane.rowIndex="2"/>
+
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200" prefWidth="200"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                            </rowConstraints>
+                        </GridPane>
+                    </VBox>
+                </content>
             </Tab>
 
             <!-- Вкладка "История" -->
-            <Tab text="История">
-                <VBox spacing="10">
-                    <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </padding>
+            <Tab text="История" style="-fx-font-weight: bold;">
+                <content>
+                    <VBox spacing="15" style="-fx-background-color: #e8f5e9; -fx-background-radius: 10; -fx-padding: 20;">
+                        <Label text="ИСТОРИЯ ОПЕРАЦИЙ"
+                               style="-fx-font-size: 16; -fx-text-fill: #2e7d32; -fx-font-weight: bold;"/>
 
-                    <!-- Панель поиска и фильтрации -->
-                    <GridPane hgap="10" vgap="10">
-                        <Label text="Поиск:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                        <TextField fx:id="searchField" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <GridPane.margin>
-                                <Insets right="50.0"/>
-                            </GridPane.margin>
-                        </TextField>
-                        <Button text="Найти" onAction="#handleSearch" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                        <!-- Панель поиска и фильтрации -->
+                        <GridPane hgap="10" vgap="10"
+                                  style="-fx-background-color: #b2dfdb; -fx-background-radius: 10; -fx-padding: 10;">
+                            <Label text="Поиск:" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                                   style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
+                            <TextField fx:id="searchField" promptText="Поиск по истории" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                       style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;"/>
+                            <Button text="Найти" onAction="#handleSearch" GridPane.columnIndex="2" GridPane.rowIndex="0"
+                                    style="-fx-background-color: #43a047; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
 
-                        <Label text="Сортировка:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                        <ComboBox fx:id="sortComboBox" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <CheckBox fx:id="ascendingCheckBox" text="По возрастанию" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                        <Button text="Применить" onAction="#handleSort" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                            <Label text="Сортировка:" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                                   style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
+                            <ComboBox fx:id="sortComboBox" promptText="Выберите поле" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                      style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;"/>
+                            <CheckBox fx:id="ascendingCheckBox" text="По возрастанию" GridPane.columnIndex="2" GridPane.rowIndex="1"
+                                      style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
+                            <Button text="Применить" onAction="#handleSort" GridPane.columnIndex="3" GridPane.rowIndex="1"
+                                    style="-fx-background-color: #43a047; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
 
-                        <Label text="Фильтр:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                        <ComboBox fx:id="filterComboBox" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                        <Button text="Применить" onAction="#handleFilter" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-                    </GridPane>
+                            <Label text="Фильтр:" GridPane.columnIndex="0" GridPane.rowIndex="2"
+                                   style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
+                            <ComboBox fx:id="filterComboBox" promptText="Выберите тип" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                                      style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;"/>
+                            <Button text="Применить" onAction="#handleFilter" GridPane.columnIndex="3" GridPane.rowIndex="2"
+                                    style="-fx-background-color: #43a047; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+                        </GridPane>
 
-                    <!-- Кнопки управления -->
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <Button onAction="#loadHistory" text="Загрузить историю" />
-                        <Button onAction="#editHistoryRecord" text="Редактировать" />
-                        <Button onAction="#deleteHistoryRecord" style="-fx-background-color: #ff4444; -fx-text-fill: white;" text="Удалить" />
-                    </HBox>
-
-                    <TableView fx:id="historyTable" prefHeight="425.0" prefWidth="622.0">
-                        <columns>
-                            <TableColumn prefWidth="50" text="ID">
-                                <cellValueFactory>
-                                    <PropertyValueFactory property="id" />
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn prefWidth="120" text="Дата">
-                                <cellValueFactory>
-                                    <PropertyValueFactory property="dateString" />
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn prefWidth="150" text="Тип операции">
-                                <cellValueFactory>
-                                    <PropertyValueFactory property="operationType" />
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn prefWidth="300" text="Детали">
-                                <cellValueFactory>
-                                    <PropertyValueFactory property="details" />
-                                </cellValueFactory>
-                            </TableColumn>
-
-                            <TableColumn prefWidth="100" text="Статус">
-                                <cellValueFactory>
-                                    <PropertyValueFactory property="activeStatus" />
-                                </cellValueFactory>
-                            </TableColumn>
-
-                        </columns>
-                    </TableView>
-
-                    <!-- Форма для редактирования -->
-                    <GridPane fx:id="editForm" hgap="10" vgap="10" visible="false">
-                        <padding>
-                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                        </padding>
-
-                        <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <TextField fx:id="editIdField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                        <Label text="Тип операции:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                        <TextField fx:id="editOperationTypeField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                        <Label text="Детали:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <TextField fx:id="editDetailsField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                        <Label text="Статус:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                        <CheckBox fx:id="editStatusCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-                        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                            <Button onAction="#saveEditedRecord" text="Сохранить" />
-                            <Button onAction="#cancelEditing" text="Отмена" />
+                        <!-- Кнопки управления -->
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Button onAction="#loadHistory" text="Загрузить историю"
+                                    style="-fx-background-color: #43a047; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+                            <Button onAction="#editHistoryRecord" text="Редактировать"
+                                    style="-fx-background-color: #0288d1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+                            <Button onAction="#deleteHistoryRecord" text="Удалить"
+                                    style="-fx-background-color: #e53935; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
                         </HBox>
-                        <columnConstraints>
-                            <ColumnConstraints />
-                            <ColumnConstraints />
-                        </columnConstraints>
-                        <rowConstraints>
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                        </rowConstraints>
-                    </GridPane>
 
-                </VBox>
+                        <!-- Таблица истории -->
+                        <TableView fx:id="historyTable"
+                                   style="-fx-background-color: white; -fx-border-color: #81c784; -fx-border-radius: 5;"
+                                   VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn text="ID" style="-fx-font-weight: bold;" minWidth="50" prefWidth="60">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="id"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Дата" style="-fx-font-weight: bold;" minWidth="100" prefWidth="120">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="dateString"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Тип операции" style="-fx-font-weight: bold;" minWidth="150" prefWidth="180">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="operationType"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Детали" style="-fx-font-weight: bold;" minWidth="200">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="details"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Статус" style="-fx-font-weight: bold;" minWidth="80" prefWidth="100">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="activeStatus"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
+                        </TableView>
+
+                        <!-- Форма для редактирования -->
+                        <GridPane fx:id="editForm" hgap="10" vgap="10" visible="false"
+                                  style="-fx-background-color: #b2dfdb; -fx-background-radius: 10; -fx-padding: 10;">
+                            <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                                   style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
+                            <TextField fx:id="editIdField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                       style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;"/>
+
+                            <Label text="Тип операции:" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                                   style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
+                            <TextField fx:id="editOperationTypeField" promptText="Введите тип операции" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                       style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;"/>
+
+                            <Label text="Детали:" GridPane.columnIndex="0" GridPane.rowIndex="2"
+                                   style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
+                            <TextField fx:id="editDetailsField" promptText="Введите детали" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                                       style="-fx-background-radius: 5; -fx-border-color: #81c784; -fx-border-radius: 5; -fx-background-color: white;"/>
+
+                            <Label text="Статус:" GridPane.columnIndex="0" GridPane.rowIndex="3"
+                                   style="-fx-text-fill: #004d40; -fx-font-weight: bold;"/>
+                            <CheckBox fx:id="editStatusCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                <Button onAction="#saveEditedRecord" text="Сохранить"
+                                        style="-fx-background-color: #43a047; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+                                <Button onAction="#cancelEditing" text="Отмена"
+                                        style="-fx-background-color: #0288d1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+                            </HBox>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200" prefWidth="200"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                            </rowConstraints>
+                        </GridPane>
+                    </VBox>
+                </content>
             </Tab>
-
         </tabs>
     </TabPane>
 </VBox>

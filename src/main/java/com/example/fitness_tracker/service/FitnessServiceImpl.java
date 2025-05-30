@@ -16,15 +16,28 @@ public class FitnessServiceImpl implements FitnessService {
 
     @Override
     public String calculateProgress(UserData userData) {
-        long days = userData.getTargetDate().until(LocalDate.now()).getDays();
+        // Рассчитываем количество дней до цели
+        long days = java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), userData.getTargetDate());
         double weightDiff = userData.getCurrentWeight() - userData.getTargetWeight();
-        double dailyLoss = weightDiff / days;
 
-        String result = String.format("Для цели нужно терять %.2f кг/день (%.2f кг/неделю)",
-                dailyLoss, dailyLoss * 7);
+        if (days <= 0) {
+            return "Ошибка: срок должен быть в будущем!";
+        }
 
-        if (dailyLoss > 0.15) {
-            result += "\nВнимание! Более 0.15 кг/день может быть вредно!";
+        // Расчет по неделям (более здоровый подход)
+        double weeklyLoss = weightDiff / (days / 7.0);
+        double dailyLoss = weeklyLoss / 7;
+
+        String result = String.format("Для цели нужно терять %.2f кг/неделю (%.2f кг/день)",
+                weeklyLoss, dailyLoss);
+
+        // Предупреждения о здоровье
+        if (weeklyLoss > 1.0) {
+            result += "\n⚠️ Внимание! Потеря более 1 кг/неделю может быть вредна для здоровья!";
+        } else if (weeklyLoss < 0.5) {
+            result += "\n💡 Можно немного увеличить дефицит калорий";
+        } else {
+            result += "\n✅ Это безопасный и эффективный темп похудения";
         }
 
         return result;
