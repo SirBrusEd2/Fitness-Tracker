@@ -1,0 +1,50 @@
+@startuml FitnessTracker_Physical_Model
+
+skinparam linetype ortho
+skinparam titleFontSize 16
+
+
+package "fitness_tracker.public" {
+  entity "user_data" as user_data {
+    + id : SERIAL <<PK>>
+    --
+    current_weight : DOUBLE PRECISION <<NOT NULL>>
+    target_weight : DOUBLE PRECISION <<NOT NULL>>
+    target_date : DATE <<NOT NULL>>
+    workouts_this_week : INTEGER <<DEFAULT=0>>
+    avg_workout_duration : INTEGER <<DEFAULT=0>>
+  }
+
+  entity "history_record" as history_record {
+    + id : SERIAL <<PK>>
+    --
+    user_id : INTEGER <<FK>> <<NOT NULL>>
+    operation_date : TIMESTAMP <<DEFAULT=CURRENT_TIMESTAMP>>
+    operation_type : VARCHAR(50) <<NOT NULL>>
+    details : TEXT
+    active : BOOLEAN <<DEFAULT=TRUE>>
+  }
+
+  user_data }|--o{ history_record : "1:N"
+}
+
+' Индексы (физический уровень)
+entity "Индексы" as indexes {
+  + idx_history_user_id (user_id)
+  + idx_history_operation_type (operation_type)
+  + idx_history_active (active)
+}
+
+' Связь индексов с таблицами
+history_record .. indexes : "ускоряют запросы"
+
+' Триггеры (пример)
+entity "Триггеры" as triggers {
+  + check_weight_values()
+  + update_history_audit()
+}
+
+user_data .. triggers : "валидация данных"
+
+
+@enduml

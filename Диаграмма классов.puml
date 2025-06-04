@@ -1,22 +1,13 @@
 @startuml FitnessTrackerClassDiagram
 
-' Основные классы модели
+' Модели данных
 class UserData {
   - currentWeight: double
   - targetWeight: double
   - targetDate: LocalDate
   - workoutsThisWeek: int
   - avgWorkoutDuration: int
-  + getCurrentWeight(): double
-  + setCurrentWeight(double): void
-  + getTargetWeight(): double
-  + setTargetWeight(double): void
-  + getTargetDate(): LocalDate
-  + setTargetDate(LocalDate): void
-  + getWorkoutsThisWeek(): int
-  + setWorkoutsThisWeek(int): void
-  + getAvgWorkoutDuration(): int
-  + setAvgWorkoutDuration(int): void
+  + getters/setters()
 }
 
 class HistoryRecord {
@@ -25,84 +16,29 @@ class HistoryRecord {
   - operationType: String
   - details: String
   - active: boolean
-  + getId(): int
-  + setId(int): void
-  + getDate(): LocalDate
-  + getOperationType(): String
-  + getDetails(): String
-  + isActive(): boolean
-  + setActive(boolean): void
+  + getters/setters()
 }
 
-' Интерфейсы и классы DAO
+' DAO-слой
 interface UserDataDao {
   + saveUserData(UserData): void
   + saveHistoryRecord(String, String): void
   + getHistoryRecords(): List<HistoryRecord>
-  + getUserDataById(int): Optional<UserData>
-  + updateUserData(int, UserData): void
-  + deleteUserData(int): void
-  + getHistoryRecordById(int): Optional<HistoryRecord>
   + updateHistoryRecord(int, HistoryRecord): void
   + deleteHistoryRecord(int): void
-  + updateHistoryRecordStatus(int, boolean): void
-  + searchHistoryRecords(String): List<HistoryRecord>
-  + getHistoryRecordsSorted(String, boolean): List<HistoryRecord>
-  + filterHistoryRecordsByType(String): List<HistoryRecord>
 }
 
 class PostgresUserDataDao {
   - connection: Connection
-  + PostgresUserDataDao()
-  - createTablesIfNotExist(): void
-  + saveUserData(UserData): void
-  + saveHistoryRecord(String, String): void
-  + getHistoryRecords(): List<HistoryRecord>
-  + getUserDataById(int): Optional<UserData>
-  + updateUserData(int, UserData): void
-  + deleteUserData(int): void
-  + getHistoryRecordById(int): Optional<HistoryRecord>
-  + updateHistoryRecord(int, HistoryRecord): void
-  + deleteHistoryRecord(int): void
-  + updateHistoryRecordStatus(int, boolean): void
-  + searchHistoryRecords(String): List<HistoryRecord>
-  + getHistoryRecordsSorted(String, boolean): List<HistoryRecord>
-  + filterHistoryRecordsByType(String): List<HistoryRecord>
+  + методы DAO
 }
 
 class FileUserDataDao {
-  + saveUserData(UserData): void
-  + saveHistoryRecord(String, String): void
-  + getHistoryRecords(): List<HistoryRecord>
-  + getUserDataById(int): Optional<UserData>
-  + updateUserData(int, UserData): void
-  + deleteUserData(int): void
-  + getHistoryRecordById(int): Optional<HistoryRecord>
-  + updateHistoryRecord(int, HistoryRecord): void
-  + deleteHistoryRecord(int): void
-  + updateHistoryRecordStatus(int, boolean): void
-  + searchHistoryRecords(String): List<HistoryRecord>
-  + getHistoryRecordsSorted(String, boolean): List<HistoryRecord>
-  + filterHistoryRecordsByType(String): List<HistoryRecord>
+  + методы DAO
 }
 
 class InMemoryUserDataDao {
-  - userDataList: ObservableList<UserData>
-  - historyRecords: ObservableList<HistoryRecord>
-  + getInstance(): InMemoryUserDataDao
-  + saveUserData(UserData): void
-  + saveHistoryRecord(String, String): void
-  + getHistoryRecords(): List<HistoryRecord>
-  + getUserDataById(int): Optional<UserData>
-  + updateUserData(int, UserData): void
-  + deleteUserData(int): void
-  + getHistoryRecordById(int): Optional<HistoryRecord>
-  + updateHistoryRecord(int, HistoryRecord): void
-  + deleteHistoryRecord(int): void
-  + updateHistoryRecordStatus(int, boolean): void
-  + searchHistoryRecords(String): List<HistoryRecord>
-  + getHistoryRecordsSorted(String, boolean): List<HistoryRecord>
-  + filterHistoryRecordsByType(String): List<HistoryRecord>
+  + методы DAO
 }
 
 ' Сервисный слой
@@ -110,56 +46,21 @@ interface FitnessService {
   + calculateProgress(UserData): String
   + checkOvertraining(UserData): String
   + convertMilesToKm(double): String
-  + saveProgressCalculation(UserData, String): void
-  + saveWorkoutData(UserData, String): void
-  + saveConversion(double, String): void
-  + loadHistory(): List<HistoryRecord>
-  + updateHistoryRecord(int, HistoryRecord): void
-  + deleteHistoryRecord(int): void
-  + searchHistoryRecords(String): List<HistoryRecord>
-  + getHistoryRecordsSorted(String, boolean): List<HistoryRecord>
-  + filterHistoryRecordsByType(String): List<HistoryRecord>
 }
 
 class FitnessServiceImpl {
   - userDataDao: UserDataDao
-  + FitnessServiceImpl(UserDataDao)
-  + calculateProgress(UserData): String
-  + checkOvertraining(UserData): String
-  + convertMilesToKm(double): String
-  + saveProgressCalculation(UserData, String): void
-  + saveWorkoutData(UserData, String): void
-  + saveConversion(double, String): void
-  + loadHistory(): List<HistoryRecord>
-  + updateHistoryRecord(int, HistoryRecord): void
-  + deleteHistoryRecord(int): void
-  + searchHistoryRecords(String): List<HistoryRecord>
-  + getHistoryRecordsSorted(String, boolean): List<HistoryRecord>
-  + filterHistoryRecordsByType(String): List<HistoryRecord>
+  + реализация методов
 }
 
 ' Контроллер
 class FitnessTrackerController {
-  - dataSource: UserDataDao
   - fitnessService: FitnessService
   - historyData: ObservableList<HistoryRecord>
-  + FitnessTrackerController()
-  + initialize(): void
-  + calculateProgress(): void
-  + checkOvertraining(): void
-  + convertToKm(): void
-  + loadHistory(): void
-  + editHistoryRecord(): void
-  + deleteHistoryRecord(): void
-  + saveEditedRecord(): void
-  + cancelEditing(): void
-  + handleSearch(): void
-  + handleSort(): void
-  + handleFilter(): void
-  + toggleStatus(ActionEvent): void
+  + обработчики событий
 }
 
-' Связи между классами
+' Связи
 UserDataDao <|-- PostgresUserDataDao
 UserDataDao <|-- FileUserDataDao
 UserDataDao <|-- InMemoryUserDataDao
@@ -167,9 +68,7 @@ UserDataDao <|-- InMemoryUserDataDao
 FitnessService <|-- FitnessServiceImpl
 
 FitnessTrackerController --> FitnessService
-FitnessTrackerController --> UserDataDao
 FitnessServiceImpl --> UserDataDao
-
 FitnessService --> UserData
 FitnessService --> HistoryRecord
 

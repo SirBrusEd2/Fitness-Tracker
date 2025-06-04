@@ -10,9 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Реализация UserDataDao для работы с PostgreSQL.
+ * Обеспечивает подключение к базе данных и выполнение SQL запросов.
+ */
 public class PostgresUserDataDao implements UserDataDao {
     private Connection connection;
 
+    /**
+     * Создает соединение с PostgreSQL и необходимые таблицы, если они не существуют.
+     */
     public PostgresUserDataDao() {
         try {
             String url = "jdbc:postgresql://localhost:7777/ft_bd";
@@ -47,6 +54,10 @@ public class PostgresUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Сохраняет данные пользователя в базу данных.
+     * @param userData Данные пользователя для сохранения
+     */
     @Override
     public void saveUserData(UserData userData) {
         String sql = "INSERT INTO user_data (current_weight, target_weight, target_date, " +
@@ -65,6 +76,11 @@ public class PostgresUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Сохраняет запись истории в базу данных.
+     * @param operationType Тип операции
+     * @param details Детали операции
+     */
     @Override
     public void saveHistoryRecord(String operationType, String details) {
         String sql = "INSERT INTO history (operation_date, operation_type, details, active) VALUES (?, ?, ?, ?)";
@@ -81,6 +97,10 @@ public class PostgresUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Получает все записи истории из базы данных.
+     * @return список записей истории, отсортированный по дате (новые сначала)
+     */
     @Override
     public List<HistoryRecord> getHistoryRecords() {
         List<HistoryRecord> records = new ArrayList<>();
@@ -106,6 +126,11 @@ public class PostgresUserDataDao implements UserDataDao {
         return records;
     }
 
+    /**
+     * Получает данные пользователя по ID.
+     * @param id идентификатор пользователя
+     * @return Optional с данными пользователя, если они существуют
+     */
     @Override
     public Optional<UserData> getUserDataById(int id) {
         String sql = "SELECT * FROM user_data WHERE id = ?";
@@ -128,6 +153,11 @@ public class PostgresUserDataDao implements UserDataDao {
         return Optional.empty();
     }
 
+    /**
+     * Обновляет данные пользователя в базе данных.
+     * @param id идентификатор пользователя
+     * @param userData новые данные пользователя
+     */
     @Override
     public void updateUserData(int id, UserData userData) {
         String sql = "UPDATE user_data SET current_weight = ?, target_weight = ?, " +
@@ -148,6 +178,10 @@ public class PostgresUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Удаляет данные пользователя из базы данных.
+     * @param id идентификатор пользователя
+     */
     @Override
     public void deleteUserData(int id) {
         String sql = "DELETE FROM user_data WHERE id = ?";
@@ -159,6 +193,11 @@ public class PostgresUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Получает запись истории по ID.
+     * @param id идентификатор записи истории
+     * @return Optional с записью истории, если она существует
+     */
     // Методы для работы с историей
     @Override
     public Optional<HistoryRecord> getHistoryRecordById(int id) {
@@ -182,6 +221,11 @@ public class PostgresUserDataDao implements UserDataDao {
         return Optional.empty();
     }
 
+    /**
+     * Обновляет запись истории в базе данных.
+     * @param id идентификатор записи
+     * @param record новые данные записи истории
+     */
     @Override
     public void updateHistoryRecord(int id, HistoryRecord record) {
         String sql = "UPDATE history SET operation_date = ?, operation_type = ?, details = ?, active = ? " +
@@ -200,6 +244,10 @@ public class PostgresUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Удаляет запись истории из базы данных.
+     * @param id идентификатор записи
+     */
     @Override
     public void deleteHistoryRecord(int id) {
         String sql = "DELETE FROM history WHERE id = ?";
@@ -211,6 +259,11 @@ public class PostgresUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Обновляет статус активности записи истории.
+     * @param id идентификатор записи
+     * @param newStatus новый статус активности (true/false)
+     */
     @Override
     public void updateHistoryRecordStatus(int id, boolean newStatus) {
         String sql = "UPDATE history SET active = ? WHERE id = ?";
@@ -225,6 +278,11 @@ public class PostgresUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Ищет записи истории по ключевому слову (без учета регистра).
+     * @param searchTerm ключевое слово для поиска
+     * @return список найденных записей, отсортированный по дате (новые сначала)
+     */
     @Override
     public List<HistoryRecord> searchHistoryRecords(String searchTerm) {
         List<HistoryRecord> records = new ArrayList<>();
@@ -252,6 +310,12 @@ public class PostgresUserDataDao implements UserDataDao {
         return records;
     }
 
+    /**
+     * Возвращает записи истории, отсортированные по указанному полю.
+     * @param sortBy поле для сортировки (operation_date, operation_type, details)
+     * @param ascending направление сортировки (true - по возрастанию)
+     * @return отсортированный список записей
+     */
     @Override
     public List<HistoryRecord> getHistoryRecordsSorted(String sortBy, boolean ascending) {
         List<HistoryRecord> records = new ArrayList<>();
@@ -276,6 +340,11 @@ public class PostgresUserDataDao implements UserDataDao {
         return records;
     }
 
+    /**
+     * Фильтрует записи истории по типу операции.
+     * @param operationType тип операции для фильтрации
+     * @return отфильтрованный список записей, отсортированный по дате (новые сначала)
+     */
     @Override
     public List<HistoryRecord> filterHistoryRecordsByType(String operationType) {
         List<HistoryRecord> records = new ArrayList<>();

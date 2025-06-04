@@ -1,0 +1,12 @@
+@startuml FitnessTracker_ERD_Fixed
+entity UserData {
+  - current_weight
+  - target_weight
+  - target_date
+}
+entity HistoryRecord {
+  - operation_date
+  - operation_type
+}
+UserData ||-o{ HistoryRecord
+@enduml

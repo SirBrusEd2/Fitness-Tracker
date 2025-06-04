@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Реализация UserDataDao для хранения данных в памяти.
+ * Использует паттерн Singleton для обеспечения единственного экземпляра.
+ * Хранит данные в ObservableList для удобства работы с JavaFX.
+ */
 public class InMemoryUserDataDao implements UserDataDao {
     // Singleton instance
     private static final InMemoryUserDataDao INSTANCE = new InMemoryUserDataDao();
@@ -22,10 +27,18 @@ public class InMemoryUserDataDao implements UserDataDao {
         // Конструктор пустой
     }
 
+    /**
+     * Возвращает единственный экземпляр DAO.
+     * @return Экземпляр InMemoryUserDataDao
+     */
     public static InMemoryUserDataDao getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Сохраняет данные пользователя в памяти.
+     * @param userData Данные пользователя для сохранения
+     */
     @Override
     public void saveUserData(UserData userData) {
         // Всегда храним только одну запись пользователя
@@ -36,6 +49,11 @@ public class InMemoryUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Сохраняет запись истории операций в памяти.
+     * @param operationType тип выполненной операции (например, "Расчет прогресса")
+     * @param details детали операции (результат вычислений)
+     */
     @Override
     public void saveHistoryRecord(String operationType, String details) {
         HistoryRecord record = new HistoryRecord(
@@ -47,11 +65,20 @@ public class InMemoryUserDataDao implements UserDataDao {
         historyRecords.add(record);
     }
 
+    /**
+     * Получает все записи истории операций.
+     * @return неизменяемый список записей истории
+     */
     @Override
     public List<HistoryRecord> getHistoryRecords() {
         return List.copyOf(historyRecords);
     }
 
+    /**
+     * Получает данные пользователя по индексу.
+     * @param index индекс записи (только 0 поддерживается)
+     * @return Optional с данными пользователя, если они существуют
+     */
     @Override
     public Optional<UserData> getUserDataById(int index) {
         if (index == 0 && !userDataList.isEmpty()) {
@@ -60,6 +87,11 @@ public class InMemoryUserDataDao implements UserDataDao {
         return Optional.empty();
     }
 
+    /**
+     * Обновляет данные пользователя.
+     * @param index индекс записи (только 0 поддерживается)
+     * @param userData новые данные пользователя
+     */
     @Override
     public void updateUserData(int index, UserData userData) {
         if (index == 0 && !userDataList.isEmpty()) {
@@ -67,6 +99,10 @@ public class InMemoryUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Удаляет данные пользователя.
+     * @param index индекс записи (только 0 поддерживается)
+     */
     @Override
     public void deleteUserData(int index) {
         if (index == 0 && !userDataList.isEmpty()) {
@@ -74,6 +110,11 @@ public class InMemoryUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Получает запись истории по индексу.
+     * @param index индекс записи истории
+     * @return Optional с записью истории, если она существует
+     */
     @Override
     public Optional<HistoryRecord> getHistoryRecordById(int index) {
         if (index >= 0 && index < historyRecords.size()) {
@@ -82,6 +123,11 @@ public class InMemoryUserDataDao implements UserDataDao {
         return Optional.empty();
     }
 
+    /**
+     * Обновляет запись истории.
+     * @param index индекс записи для обновления
+     * @param record новые данные записи истории
+     */
     @Override
     public void updateHistoryRecord(int index, HistoryRecord record) {
         if (index >= 0 && index < historyRecords.size()) {
@@ -89,6 +135,10 @@ public class InMemoryUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Удаляет запись истории.
+     * @param index индекс записи для удаления
+     */
     @Override
     public void deleteHistoryRecord(int index) {
         if (index >= 0 && index < historyRecords.size()) {
@@ -96,6 +146,11 @@ public class InMemoryUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Обновляет статус активности записи истории.
+     * @param index индекс записи
+     * @param newStatus новый статус активности (true/false)
+     */
     @Override
     public void updateHistoryRecordStatus(int index, boolean newStatus) {
         if (index >= 0 && index < historyRecords.size()) {
@@ -103,6 +158,11 @@ public class InMemoryUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Ищет записи истории по ключевому слову.
+     * @param searchTerm ключевое слово для поиска
+     * @return список найденных записей истории
+     */
     @Override
     public List<HistoryRecord> searchHistoryRecords(String searchTerm) {
         return historyRecords.stream()
@@ -111,6 +171,12 @@ public class InMemoryUserDataDao implements UserDataDao {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Возвращает отсортированные записи истории.
+     * @param sortBy поле для сортировки (date, operationType, details)
+     * @param ascending направление сортировки (true - по возрастанию)
+     * @return отсортированный список записей
+     */
     @Override
     public List<HistoryRecord> getHistoryRecordsSorted(String sortBy, boolean ascending) {
         return historyRecords.stream()
@@ -132,6 +198,11 @@ public class InMemoryUserDataDao implements UserDataDao {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Фильтрует записи истории по типу операции.
+     * @param operationType тип операции для фильтрации
+     * @return отфильтрованный список записей
+     */
     @Override
     public List<HistoryRecord> filterHistoryRecordsByType(String operationType) {
         return historyRecords.stream()
@@ -139,6 +210,9 @@ public class InMemoryUserDataDao implements UserDataDao {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Очищает все хранимые данные (для тестирования).
+     */
     public void clearAllData() {
         userDataList.clear();
         historyRecords.clear();

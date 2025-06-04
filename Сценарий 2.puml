@@ -1,0 +1,19 @@
+@startuml UC2_WorkloadAnalysis
+
+left to right direction
+skinparam monochrome true
+
+actor "Пользователь" as User
+
+rectangle "Фитнес-трекер" {
+  (Анализ тренировочной нагрузки) as UC2
+  (Обработка ошибки ввода) as A1
+
+  UC2 --> A1 : Некорректный ввод
+}
+
+User --> UC2 : Триггер: проверка на перетренированность
+User <-- UC2 : Результат: "Перетренированность!", "Оптимально" и т.д.
+User <-- A1 : "Ошибка: введите числа"
+
+@enduml

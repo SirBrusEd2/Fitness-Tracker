@@ -10,11 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Реализация UserDataDao для хранения данных в файловой системе.
+ * Сохраняет данные в текстовых файлах и обеспечивает базовые CRUD операции.
+ */
 public class FileUserDataDao implements UserDataDao {
     private static final String USER_DATA_FILE = "user_data.txt";
     private static final String HISTORY_FILE = "history.txt";
     private static final String FILE_PATH = "history_records.txt";
 
+    /**
+     * Сохраняет данные пользователя в файл.
+     * @param userData Данные пользователя для сохранения
+     */
     @Override
     public void saveUserData(UserData userData) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(USER_DATA_FILE, true))) {
@@ -26,6 +34,11 @@ public class FileUserDataDao implements UserDataDao {
         }
     }
 
+    /**
+     * Сохраняет запись истории в файл.
+     * @param operationType Тип операции
+     * @param details Детали операции
+     */
     @Override
     public void saveHistoryRecord(String operationType, String details) {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
@@ -48,7 +61,10 @@ public class FileUserDataDao implements UserDataDao {
         }
     }
 
-
+    /**
+     * Получает все записи истории из файла.
+     * @return Список записей истории
+     */
     @Override
     public List<HistoryRecord> getHistoryRecords() {
         List<HistoryRecord> records = new ArrayList<>();

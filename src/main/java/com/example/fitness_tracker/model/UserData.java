@@ -2,6 +2,10 @@ package com.example.fitness_tracker.model;
 
 import java.time.LocalDate;
 
+/**
+ * Модель данных пользователя.
+ * Содержит информацию о весе, целях и тренировках пользователя.
+ */
 public class UserData {
     private double currentWeight;
     private double targetWeight;
@@ -9,8 +13,17 @@ public class UserData {
     private int workoutsThisWeek;
     private int avgWorkoutDuration;
 
+
     public UserData() {}
 
+    /**
+     * Создает новый объект UserData.
+     * @param currentWeight Текущий вес пользователя
+     * @param targetWeight Целевой вес пользователя
+     * @param targetDate Целевая дата достижения цели
+     * @param workoutsThisWeek Количество тренировок на этой неделе
+     * @param avgWorkoutDuration Средняя продолжительность тренировки
+     */
     public UserData(double currentWeight, double targetWeight, LocalDate targetDate,
                     int workoutsThisWeek, int avgWorkoutDuration) {
         this.currentWeight = currentWeight;

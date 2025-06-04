@@ -18,6 +18,11 @@ import javafx.scene.layout.GridPane;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Основной контроллер приложения Fitness Tracker.
+ * Управляет пользовательским интерфейсом и обработкой событий.
+ * Обеспечивает взаимодействие между UI и сервисным слоем.
+ */
 public class FitnessTrackerController {
     @FXML private TextField currentWeightField;
     @FXML private TextField targetWeightField;
@@ -53,6 +58,10 @@ public class FitnessTrackerController {
         this.fitnessService = new FitnessServiceImpl(dataSource);
     }
 
+    /**
+     * Инициализирует контроллер и настраивает UI компоненты.
+     * Загружает историю операций и настраивает обработчики событий.
+     */
     @FXML
     public void initialize() {
         // Инициализация RadioButton для выбора источника данных
@@ -102,6 +111,10 @@ public class FitnessTrackerController {
         filterComboBox.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Рассчитывает прогресс потери веса на основе введенных данных.
+     * Сохраняет результат в выбранном источнике данных.
+     */
     @FXML
     private void calculateProgress() {
         try {
@@ -128,6 +141,10 @@ public class FitnessTrackerController {
         }
     }
 
+    /**
+     * Проверяет наличие перетренированности на основе введенных данных.
+     * Сохраняет результат в выбранном источнике данных.
+     */
     @FXML
     private void checkOvertraining() {
         try {
@@ -154,6 +171,10 @@ public class FitnessTrackerController {
         }
     }
 
+    /**
+     * Конвертирует мили в километры.
+     * Сохраняет результат в выбранном источнике данных.
+     */
     @FXML
     private void convertToKm() {
         try {
@@ -174,6 +195,9 @@ public class FitnessTrackerController {
         }
     }
 
+    /**
+     * Загружает историю операций из выбранного источника данных.
+     */
     @FXML
     private void loadHistory() {
         try {
@@ -192,6 +216,9 @@ public class FitnessTrackerController {
         alert.showAndWait();
     }
 
+    /**
+     * Редактирует выбранную запись истории.
+     */
     @FXML
     private void editHistoryRecord() {
         HistoryRecord selected = historyTable.getSelectionModel().getSelectedItem();
@@ -204,6 +231,9 @@ public class FitnessTrackerController {
         }
     }
 
+    /**
+     * Удаляет выбранную запись истории.
+     */
     @FXML
     private void deleteHistoryRecord() {
         HistoryRecord selected = historyTable.getSelectionModel().getSelectedItem();
@@ -213,6 +243,9 @@ public class FitnessTrackerController {
         }
     }
 
+    /**
+     * Сохраняет отредактированную запись истории.
+     */
     @FXML
     private void saveEditedRecord() {
         try {
@@ -237,6 +270,9 @@ public class FitnessTrackerController {
         }
     }
 
+    /**
+     * Отменяет редактирование записи истории.
+     */
     @FXML
     private void cancelEditing() {
         editForm.setVisible(false);
@@ -246,6 +282,9 @@ public class FitnessTrackerController {
         editStatusCheckBox.setSelected(false);
     }
 
+    /**
+     * Выполняет поиск по истории операций.
+     */
     @FXML
     private void handleSearch() {
         String searchTerm = searchField.getText();
@@ -257,6 +296,9 @@ public class FitnessTrackerController {
         }
     }
 
+    /**
+     * Сортирует записи истории по выбранному критерию.
+     */
     @FXML
     private void handleSort() {
         String sortBy = sortComboBox.getValue();
@@ -274,6 +316,9 @@ public class FitnessTrackerController {
         historyData.setAll(records);
     }
 
+    /**
+     * Фильтрует записи истории по типу операции.
+     */
     @FXML
     private void handleFilter() {
         String filterType = filterComboBox.getValue();
@@ -285,6 +330,10 @@ public class FitnessTrackerController {
         }
     }
 
+    /**
+     * Изменяет статус записи истории (активная/неактивная).
+     * @param event Событие действия
+     */
     @FXML
     private void toggleStatus(ActionEvent event) {
         HistoryRecord selectedRecord = historyTable.getSelectionModel().getSelectedItem();
