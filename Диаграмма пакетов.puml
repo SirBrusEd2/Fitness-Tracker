@@ -1,0 +1,88 @@
+@startuml FitnessTrackerPackageDiagram
+
+skinparam nodesep 50
+skinparam ranksep 50
+skinparam packageStyle rectangle
+skinparam usecaseBackgroundColor #F8F8F8
+skinparam usecaseBorderColor #444444
+skinparam usecaseFontColor #444444
+skinparam usecaseFontSize 13
+skinparam usecaseFontName Helvetica
+
+package "com.example.fitness_tracker" {
+  package controller <<Rectangle>> {
+    class FitnessTrackerController {
+      + calculateProgress()
+      + checkOvertraining()
+      + convertToKm()
+      + manageHistory()
+    }
+  }
+
+  package dao <<Rectangle>> {
+    interface UserDataDao <<interface>> {
+      + saveUserData()
+      + getHistoryRecords()
+      + updateHistoryRecord()
+    }
+
+    class PostgresUserDataDao
+    class FileUserDataDao
+    class InMemoryUserDataDao
+  }
+
+  package model <<Rectangle>> {
+    class UserData {
+      - currentWeight: double
+      - targetWeight: double
+      - targetDate: LocalDate
+      + getters/setters
+    }
+
+    class HistoryRecord {
+      - id: int
+      - date: LocalDate
+      - operationType: String
+      + getters/setters
+    }
+  }
+
+  package service <<Rectangle>> {
+    interface FitnessService <<interface>> {
+      + calculateProgress()
+      + checkOvertraining()
+      + convertMilesToKm()
+    }
+
+    class FitnessServiceImpl
+  }
+}
+
+' Связи между пакетами
+FitnessTrackerController --> FitnessService
+FitnessTrackerController --> UserDataDao
+
+FitnessServiceImpl --> UserDataDao
+FitnessServiceImpl --> UserData
+FitnessServiceImpl --> HistoryRecord
+
+UserDataDao <|.. PostgresUserDataDao
+UserDataDao <|.. FileUserDataDao
+UserDataDao <|.. InMemoryUserDataDao
+
+FitnessService <|.. FitnessServiceImpl
+
+note right of FitnessTrackerController
+  Основной контроллер приложения,
+  обрабатывает пользовательский ввод
+  и взаимодействует с сервисным слоем
+end note
+
+note bottom of dao
+  Data Access Object (DAO) слои:
+  - Работа с PostgreSQL
+  - Работа с файлами
+  - In-memory хранилище
+end note
+
+@enduml

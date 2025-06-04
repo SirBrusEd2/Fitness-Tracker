@@ -1,0 +1,75 @@
+@startuml FitnessTrackerClassDiagram
+
+' Модели данных
+class UserData {
+  - currentWeight: double
+  - targetWeight: double
+  - targetDate: LocalDate
+  - workoutsThisWeek: int
+  - avgWorkoutDuration: int
+  + getters/setters()
+}
+
+class HistoryRecord {
+  - id: int
+  - date: LocalDate
+  - operationType: String
+  - details: String
+  - active: boolean
+  + getters/setters()
+}
+
+' DAO-слой
+interface UserDataDao {
+  + saveUserData(UserData): void
+  + saveHistoryRecord(String, String): void
+  + getHistoryRecords(): List<HistoryRecord>
+  + updateHistoryRecord(int, HistoryRecord): void
+  + deleteHistoryRecord(int): void
+}
+
+class PostgresUserDataDao {
+  - connection: Connection
+  + методы DAO
+}
+
+class FileUserDataDao {
+  + методы DAO
+}
+
+class InMemoryUserDataDao {
+  + методы DAO
+}
+
+' Сервисный слой
+interface FitnessService {
+  + calculateProgress(UserData): String
+  + checkOvertraining(UserData): String
+  + convertMilesToKm(double): String
+}
+
+class FitnessServiceImpl {
+  - userDataDao: UserDataDao
+  + реализация методов
+}
+
+' Контроллер
+class FitnessTrackerController {
+  - fitnessService: FitnessService
+  - historyData: ObservableList<HistoryRecord>
+  + обработчики событий
+}
+
+' Связи
+UserDataDao <|-- PostgresUserDataDao
+UserDataDao <|-- FileUserDataDao
+UserDataDao <|-- InMemoryUserDataDao
+
+FitnessService <|-- FitnessServiceImpl
+
+FitnessTrackerController --> FitnessService
+FitnessServiceImpl --> UserDataDao
+FitnessService --> UserData
+FitnessService --> HistoryRecord
+
+@enduml

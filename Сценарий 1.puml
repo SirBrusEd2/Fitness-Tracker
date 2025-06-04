@@ -1,0 +1,23 @@
+@startuml UC1_WeightProgressCalculation
+
+left to right direction
+skinparam monochrome true
+
+actor "Пользователь" as User
+
+rectangle "Фитнес-трекер" {
+  (Расчет прогресса в похудении) as UC1
+  (Обработка ошибки ввода) as A1
+  (Коррекция даты) as A2
+
+  UC1 --> A1 : Некорректные данные
+  UC1 --> A2 : Срок в прошлом
+}
+
+User --> UC1 : Триггер: желание рассчитать темп похудения
+User <-- UC1 : Результат: рекомендации
+User <-- A1 : "Ошибка: текущий вес > целевой вес > 0"
+User <-- A2 : "Ошибка: укажите будущую дату"
+
+
+@enduml

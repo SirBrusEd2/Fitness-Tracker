@@ -1,0 +1,22 @@
+@startuml UC4_HistoryView
+
+left to right direction
+skinparam monochrome true
+
+actor "Пользователь" as User
+
+rectangle "Фитнес-трекер" {
+  (Просмотр истории) as UC4
+  (Пустая история) as A1
+  (Перефильтрация) as A2
+
+  UC4 --> A1 : История пуста
+  UC4 --> A2 : Нет результатов поиска
+}
+
+User --> UC4 : Триггер: поиск прошлых результатов
+User <-- UC4 : Таблица с историей
+User <-- A1 : Нет данных для отображения
+User <-- A2 : "Ничего не найдено"
+
+@enduml

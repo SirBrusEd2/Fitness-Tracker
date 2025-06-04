@@ -1,0 +1,21 @@
+@startuml FitnessTrackerSequenceDiagram
+
+actor User
+participant FitnessTrackerController
+participant FitnessServiceImpl
+participant UserDataDao
+participant UserData
+participant HistoryRecord
+
+User -> FitnessTrackerController : Вводит данные (вес, цель, срок)
+FitnessTrackerController -> FitnessServiceImpl : calculateProgress(userData)
+FitnessServiceImpl -> UserData : Проверяет данные
+FitnessServiceImpl -> UserData : Рассчитывает прогресс
+FitnessServiceImpl --> FitnessTrackerController : Возвращает результат
+FitnessTrackerController -> FitnessServiceImpl : saveProgressCalculation(userData, result)
+FitnessServiceImpl -> UserDataDao : saveUserData(userData)
+FitnessServiceImpl -> UserDataDao : saveHistoryRecord("Расчет прогресса", result)
+UserDataDao -> HistoryRecord : Создает новую запись
+FitnessTrackerController -> User : Показывает результат
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml UC3_MilesToKmConversion
+
+left to right direction
+skinparam monochrome true
+
+actor "Пользователь" as User
+
+rectangle "Фитнес-трекер" {
+  (Конвертация миль в км) as UC3
+  (Коррекция ввода) as A1
+
+  UC3 --> A1 : Отрицательное значение
+}
+
+User --> UC3 : Триггер: необходимость конвертации
+User <-- UC3 : Результат: "5.00 миль = 8.05 км"
+User <-- A1 : "Ошибка: введите положительное число"
+
+@enduml
