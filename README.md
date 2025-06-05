@@ -22,7 +22,7 @@
 ---
 
 ## Скриншот рабочего окна приложения
-![Fitness Tracker](FitnessTrackerClassDiagram.png)
+![Fitness Tracker](FitnessTrackerClassDiagramM1.png)
 
 ---
 
