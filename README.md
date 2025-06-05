@@ -22,7 +22,8 @@
 ---
 
 ## Скриншот рабочего окна приложения
-![Fitness Tracker](FitnessTrackerClassDiagramM1.png)
+![image](https://github.com/user-attachments/assets/92709d93-cc41-4d20-b11e-069069e472ce)
+
 
 ---
 
@@ -41,7 +42,7 @@
 ## Архитектура
 
 ### Диаграмма классов
-![Class Diagram](FitnessTrackerClassDiagram.png)
+![Class Diagram](FitnessTrackerClassDiagramM1.png)
 
 ### Диаграмма пакетов
 ![Package Diagram](FitnessTrackerPackageDiagram.png)
